@@ -309,6 +309,40 @@ section h2::after {
     font-size: 1rem;
 }
 
+.project-details {
+    list-style: none;
+    padding: 0;
+    margin: 15px 0;
+    text-align: left;
+}
+
+.project-details li {
+    color: #e0e0e0;
+    font-size: 0.9rem;
+    margin: 8px 0;
+    padding-left: 20px;
+    position: relative;
+}
+
+.project-details li::before {
+    content: '•';
+    color: #4cc9f0;
+    font-weight: bold;
+    position: absolute;
+    left: 0;
+}
+
+.project-tech {
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid rgba(76, 201, 240, 0.3);
+    font-size: 0.9rem;
+}
+
+.project-tech strong {
+    color: #f72585;
+}
+
 /* Contact Section */
 .contact-content {
     display: grid;
