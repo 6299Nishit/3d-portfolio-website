@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nishit Prajapati - 3D Portfolio</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+</head>
+<body>
+    <div id="scene-container"></div>
+    
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">NP</div>
+                <ul class="nav-links">
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#projects">Projects</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section id="home" class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Hi, I'm <span class="highlight">Nishit Prajapati</span></h1>
+                <h2>Engineer & Innovator</h2>
+                <p>Welcome to my interactive 3D portfolio showcasing my engineering projects and skills.</p>
+                <div class="cta-buttons">
+                    <a href="#projects" class="btn primary">View My Work</a>
+                    <a href="#contact" class="btn secondary">Get In Touch</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="about">
+        <div class="container">
+            <h2>About Me</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <p>
+                        I'm an engineering student with a passion for innovation and technology. 
+                        With expertise in areas like embedded systems, robotics, and IoT, I enjoy 
+                        creating solutions that bridge the gap between hardware and software.
+                    </p>
+                    <p>
+                        My journey in engineering has equipped me with strong problem-solving skills 
+                        and the ability to work on multidisciplinary projects. I'm constantly exploring 
+                        new technologies and methodologies to enhance my skillset.
+                    </p>
+                    <div class="skills">
+                        <div class="skill">Embedded Systems</div>
+                        <div class="skill">IoT Development</div>
+                        <div class="skill">Robotics</div>
+                        <div class="skill">PCB Design</div>
+                        <div class="skill">3D Modeling</div>
+                        <div class="skill">MATLAB</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="projects" class="projects">
+        <div class="container">
+            <h2>Featured Projects</h2>
+            <div class="project-grid">
+                <div class="project-card">
+                    <div class="project-icon">🤖</div>
+                    <h3>ESP32 RC Car</h3>
+                    <p>Remote controlled car using ESP32 microcontroller with WiFi connectivity and smartphone control.</p>
+                </div>
+                <div class="project-card">
+                    <div class="project-icon">📡</div>
+                    <h3>WiFi Light Control</h3>
+                    <p>Smart lighting system controlled via WiFi with automation capabilities.</p>
+                </div>
+                <div class="project-card">
+                    <div class="project-icon">⏱️</div>
+                    <h3>Digital Stopwatch</h3>
+                    <p>Precision digital stopwatch built with multisim simulation and hardware implementation.</p>
+                </div>
+                <div class="project-card">
+                    <div class="project-icon">⚙️</div>
+                    <h3>Motor Driver Circuit</h3>
+                    <p>Custom PCB design for motor driver applications with schematic and layout.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="contact">
+        <div class="container">
+            <h2>Get In Touch</h2>
+            <div class="contact-content">
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <h3>Email</h3>
+                        <p>nishit.prajapati@example.com</p>
+                    </div>
+                    <div class="contact-item">
+                        <h3>LinkedIn</h3>
+                        <p>linkedin.com/in/nishit-prajapati-b27201321</p>
+                    </div>
+                    <div class="contact-item">
+                        <h3>Location</h3>
+                        <p>Your City, Country</p>
+                    </div>
+                </div>
+                <form class="contact-form">
+                    <input type="text" placeholder="Your Name" required>
+                    <input type="email" placeholder="Your Email" required>
+                    <textarea placeholder="Your Message" rows="5" required></textarea>
+                    <button type="submit" class="btn primary">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Nishit Prajapati. All rights reserved.</p>
+            <div class="social-links">
+                <a href="#">LinkedIn</a>
+                <a href="#">GitHub</a>
+                <a href="#">Instagram</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
