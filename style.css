@@ -224,6 +224,28 @@ section h2::after {
     color: #e0e0e0;
 }
 
+.about-details {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 15px;
+    margin-top: 30px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.detail-item {
+    padding: 10px;
+    font-size: 1rem;
+    color: #e0e0e0;
+}
+
+.detail-item strong {
+    color: #4cc9f0;
+    margin-right: 8px;
+}
+
 .skills {
     display: flex;
     flex-wrap: wrap;
