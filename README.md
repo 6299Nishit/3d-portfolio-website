@@ -1,6 +1,19 @@
-# 3D Portfolio Website for Nishit Prajapati
+# 3D Portfolio Website - Nishit Kumar Prajapati
 
-This is a modern, interactive 3D portfolio website built with Three.js for showcasing your engineering projects and skills.
+This is a modern, interactive 3D portfolio website built with Three.js showcasing my engineering projects and skills.
+
+## 🌐 Live Demo
+
+Visit my portfolio: [https://6299nishit.github.io/3d-portfolio-website/](https://6299nishit.github.io/3d-portfolio-website/)
+
+## 👨‍💻 About Me
+
+**Nishit Kumar Prajapati**  
+Engineering Student | Innovation Enthusiast | Tech Explorer
+
+- 📧 Email: nishitpra333@gmail.com
+- 💼 LinkedIn: [linkedin.com/in/nishit-prajapati-b27201321](https://www.linkedin.com/in/nishit-prajapati-b27201321/)
+- 🐙 GitHub: [github.com/6299Nishit](https://github.com/6299Nishit)
 
 ## Features
 
@@ -66,12 +79,18 @@ This website works best in modern browsers that support WebGL:
 
 ## About the Developer
 
-This portfolio was created for Nishit Prajapati based on the information from your LinkedIn profile. The website showcases your skills in:
-- Embedded Systems
-- IoT Development
-- Robotics
-- PCB Design
-- 3D Modeling
-- MATLAB
+This portfolio was created by **Nishit Kumar Prajapati**, an engineering student passionate about:
+- 🔌 Embedded Systems
+- 🌐 IoT Development
+- 🤖 Robotics
+- 🔧 PCB Design
+- 📐 3D Modeling
+- 📊 MATLAB
 
-Feel free to customize this portfolio with your actual projects and personal information!
+### Contact
+
+- **Email:** nishitpra333@gmail.com
+- **LinkedIn:** [Nishit Kumar Prajapati](https://www.linkedin.com/in/nishit-prajapati-b27201321/)
+- **GitHub:** [6299Nishit](https://github.com/6299Nishit)
+
+Feel free to reach out for collaborations, projects, or just to connect!
