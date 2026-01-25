@@ -20,179 +20,6 @@ body {
     padding: 0 20px;
 }
 
-/* Voice Control Styles - Positioned just below navigation */
-.voice-control {
-    position: fixed;
-    top: 80px; /* Just below the fixed header */
-    right: 20px;
-    z-index: 999;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 10px;
-}
-
-.voice-btn {
-    background: linear-gradient(45deg, #4cc9f0, #4361ee);
-    border: none;
-    border-radius: 50px;
-    padding: 12px 25px;
-    color: white;
-    font-weight: 600;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    transition: all 0.3s ease;
-    box-shadow: 0 5px 15px rgba(76, 201, 240, 0.3);
-    transform-style: preserve-3d;
-    perspective: 1000px;
-}
-
-.voice-btn:hover {
-    transform: translateY(-3px) scale(1.05);
-    box-shadow: 0 8px 25px rgba(76, 201, 240, 0.5);
-}
-
-.voice-btn.listening {
-    background: linear-gradient(45deg, #f72585, #b5179e);
-    animation: pulse 1.5s infinite;
-    box-shadow: 0 0 20px rgba(247, 37, 133, 0.5);
-}
-
-.voice-btn .mic-icon {
-    font-size: 1.2rem;
-    transition: all 0.3s ease;
-}
-
-.voice-btn.listening .mic-icon {
-    animation: micPulse 1s infinite;
-}
-
-.voice-status {
-    background: rgba(255, 255, 255, 0.1);
-    padding: 8px 15px;
-    border-radius: 20px;
-    font-size: 0.9rem;
-    color: #ffffff;
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    cursor: pointer;
-    transition: all 0.3s ease;
-    text-align: right;
-    max-width: 200px;
-}
-
-.voice-status:hover {
-    background: rgba(76, 201, 240, 0.2);
-    border-color: rgba(76, 201, 240, 0.5);
-}
-
-/* Voice Modal Styles */
-.voice-modal {
-    display: none;
-    position: fixed;
-    z-index: 1002;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.7);
-    backdrop-filter: blur(5px);
-}
-
-.modal-content {
-    background: linear-gradient(135deg, #1a1a2e, #16213e);
-    margin: 5% auto;
-    padding: 0;
-    border-radius: 15px;
-    width: 90%;
-    max-width: 600px;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
-    border: 1px solid rgba(76, 201, 240, 0.3);
-    overflow: hidden;
-}
-
-.modal-header {
-    background: rgba(76, 201, 240, 0.1);
-    padding: 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 1px solid rgba(76, 201, 240, 0.2);
-}
-
-.modal-header h3 {
-    color: #4cc9f0;
-    font-size: 1.5rem;
-    margin: 0;
-}
-
-.close-modal {
-    background: none;
-    border: none;
-    color: #f72585;
-    font-size: 2rem;
-    cursor: pointer;
-    padding: 0;
-    width: 30px;
-    height: 30px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    transition: all 0.3s ease;
-}
-
-.close-modal:hover {
-    background: rgba(247, 37, 133, 0.2);
-    transform: rotate(90deg);
-}
-
-.modal-body {
-    padding: 25px;
-}
-
-.command-list {
-    display: grid;
-    gap: 20px;
-}
-
-.command-category {
-    background: rgba(255, 255, 255, 0.05);
-    padding: 20px;
-    border-radius: 10px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.command-category h4 {
-    color: #4cc9f0;
-    margin-bottom: 15px;
-    font-size: 1.2rem;
-    border-bottom: 1px solid rgba(76, 201, 240, 0.3);
-    padding-bottom: 8px;
-}
-
-.command-category ul {
-    list-style: none;
-    padding: 0;
-}
-
-.command-category li {
-    padding: 8px 0;
-    color: #e0e0e0;
-    font-size: 0.95rem;
-    position: relative;
-    padding-left: 20px;
-}
-
-.command-category li::before {
-    content: '🎤';
-    position: absolute;
-    left: 0;
-    color: #f72585;
-}
-
 /* Project Link Styles */
 .project-link {
     margin-top: 15px;
@@ -683,11 +510,6 @@ footer {
     .about-content {
         flex-direction: column;
     }
-    
-    .voice-control {
-        top: 100px; /* Adjusted for smaller screens */
-        right: 15px;
-    }
 }
 
 @media (max-width: 768px) {
@@ -710,23 +532,6 @@ footer {
     
     section h2 {
         font-size: 2rem;
-    }
-    
-    .voice-control {
-        position: fixed;
-        top: 60px;
-        right: 15px;
-        align-items: flex-end;
-    }
-    
-    .voice-btn {
-        padding: 12px 20px;
-        font-size: 0.9rem;
-    }
-    
-    .voice-status {
-        font-size: 0.8rem;
-        max-width: 180px;
     }
     
     .modal-content {
@@ -756,31 +561,7 @@ footer {
         padding: 12px 25px;
     }
     
-    .command-category {
-        padding: 15px;
-    }
-    
-    .command-category li {
-        font-size: 0.9rem;
-    }
-    
     .project-card {
         padding: 20px;
-    }
-    
-    .voice-control {
-        top: 60px;
-        right: 10px;
-    }
-    
-    .voice-btn {
-        padding: 10px 15px;
-        font-size: 0.8rem;
-    }
-    
-    .voice-status {
-        font-size: 0.7rem;
-        max-width: 150px;
-        padding: 6px 12px;
     }
 }
