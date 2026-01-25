@@ -327,7 +327,7 @@ function processVoiceCommand(command) {
     // Interaction commands
     else if (command.includes('skill') || command.includes('skills')) {
         highlightSkills();
-        speakResponse('These are my key technical skills in embedded systems, satellite systems, and orbital mechanics');
+        speakResponse('These are my key technical skills in embedded systems, IoT development, and MATLAB');
     }
     // Satellite project commands
     else if (command.includes('satellite') || command.includes('leo') || command.includes('orbit')) {
@@ -365,11 +365,7 @@ function processVoiceCommand(command) {
     else {
         speakResponse('Sorry, I did not understand that command. Say help to see available commands');
     }
-    
-    // Reset processing flag after a short delay
-    setTimeout(() => {
-        isProcessingCommand = false;
-    }, 500);
+    // Note: isProcessingCommand flag is now handled in the speakResponse function
 }
 
 function scrollToSection(sectionId) {
@@ -419,9 +415,25 @@ function speakResponse(text) {
         utterance.pitch = 1;
         utterance.volume = 1;
         
-        // Add small delay to ensure previous speech is fully cancelled
+        // Set the processing flag to false when speech ends
+        utterance.onend = function() {
+            setTimeout(() => {
+                isProcessingCommand = false;
+            }, 100); // Small delay to ensure speech fully completes
+        };
+        
+        // Handle error case as well
+        utterance.onerror = function() {
+            setTimeout(() => {
+                isProcessingCommand = false;
+            }, 100);
+        };
+        
+        speechSynthesis.speak(utterance);
+    } else {
+        // If speech synthesis is not supported, just reset the flag
         setTimeout(() => {
-            speechSynthesis.speak(utterance);
+            isProcessingCommand = false;
         }, 100);
     }
 }
