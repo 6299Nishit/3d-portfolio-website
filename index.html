@@ -8,6 +8,67 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 </head>
 <body>
+    <!-- Voice Control Button -->
+    <div id="voice-control" class="voice-control">
+        <button id="voice-btn" class="voice-btn">
+            <span class="mic-icon">🎤</span>
+            <span class="btn-text">Voice Control</span>
+        </button>
+        <div id="voice-status" class="voice-status">Click to start voice control</div>
+    </div>
+    
+    <!-- Voice Commands Modal -->
+    <div id="voice-modal" class="voice-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Voice Commands</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="command-list">
+                    <div class="command-category">
+                        <h4>Navigation</h4>
+                        <ul>
+                            <li>"Go to home" or "Home page"</li>
+                            <li>"About me" or "Tell me about yourself"</li>
+                            <li>"Show projects" or "My work"</li>
+                            <li>"Contact information" or "Get in touch"</li>
+                        </ul>
+                    </div>
+                    <div class="command-category">
+                        <h4>Interaction</h4>
+                        <ul>
+                            <li>"Show my skills"</li>
+                            <li>"Tell me about satellite project"</li>
+                            <li>"Tell me about RC car"</li>
+                            <li>"Tell me about WiFi light"</li>
+                            <li>"Tell me about stopwatch"</li>
+                            <li>"Tell me about PCB design"</li>
+                            <li>"What technologies do you use"</li>
+                            <li>"Send message" or "Contact me"</li>
+                        </ul>
+                    </div>
+                    <div class="command-category">
+                        <h4>Project Specific</h4>
+                        <ul>
+                            <li>"Satellite optimizer" or "LEO project"</li>
+                            <li>"Orbital mechanics" or "Space project"</li>
+                            <li>"Genetic algorithm" or "Optimization"</li>
+                        </ul>
+                    </div>
+                    <div class="command-category">
+                        <h4>Control</h4>
+                        <ul>
+                            <li>"Stop listening"</li>
+                            <li>"Close voice control"</li>
+                            <li>"Help" or "Show commands"</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div id="scene-container"></div>
     
     <header>
@@ -68,6 +129,9 @@
                         <div class="skill">Robotics</div>
                         <div class="skill">PCB Design</div>
                         <div class="skill">MATLAB</div>
+                        <div class="skill">Satellite Systems</div>
+                        <div class="skill">Orbital Mechanics</div>
+                        <div class="skill">Python</div>
                     </div>
                 </div>
             </div>
@@ -78,17 +142,33 @@
         <div class="container">
             <h2>Featured Projects</h2>
             <div class="project-grid">
-                <div class="project-card">
+                <div class="project-card" data-project="satellite">
+                    <div class="project-icon">🛰️</div>
+                    <h3>LEO/MEO Satellite Optimizer</h3>
+                    <p>Advanced satellite constellation optimizer for Low Earth Orbit and Medium Earth Orbit missions using genetic algorithms and orbital mechanics.</p>
+                    <ul class="project-details">
+                        <li>Genetic algorithm-based constellation optimization</li>
+                        <li>LEO and MEO orbit trajectory calculations</li>
+                        <li>Coverage area and revisit time analysis</li>
+                        <li>Multi-objective optimization for cost and performance</li>
+                        <li>Real-time satellite tracking and visualization</li>
+                        <li>Ground station network optimization</li>
+                    </ul>
+                    <p class="project-tech"><strong>Software Tools:</strong> MATLAB (Communications Toolbox, DSP Toolbox, Machine Learning Toolbox)</p>
+                    <p class="project-tech"><strong>Hardware Components:</strong> HackRF, RTL-SDRv3, Sawbird + LNA Filter, Yagi Antenna, Coaxial Cable</p>
+                    <p class="project-link"><strong>GitHub:</strong> <a href="https://github.com/6299Nishit/LEO-MEO-satallite-optimizer" target="_blank" style="color: #4cc9f0;">View Repository</a></p>
+                </div>
+                <div class="project-card" data-project="rc-car">
                     <div class="project-icon">🤖</div>
                     <h3>ESP32 RC Car</h3>
                     <p>Remote controlled car using ESP32 microcontroller with WiFi connectivity and smartphone control.</p>
                 </div>
-                <div class="project-card">
+                <div class="project-card" data-project="wifi-light">
                     <div class="project-icon">📡</div>
                     <h3>WiFi Light Control</h3>
                     <p>Smart lighting system controlled via WiFi with automation capabilities.</p>
                 </div>
-                <div class="project-card">
+                <div class="project-card" data-project="stopwatch">
                     <div class="project-icon">⏱️</div>
                     <h3>Digital Stopwatch</h3>
                     <p>Precision digital stopwatch built with Multisim simulation featuring:</p>
@@ -102,7 +182,7 @@
                     </ul>
                     <p class="project-tech"><strong>Tools:</strong> Multisim</p>
                 </div>
-                <div class="project-card">
+                <div class="project-card" data-project="pcb">
                     <div class="project-icon">⚙️</div>
                     <h3>PCB Designer</h3>
                     <p>Custom PCB design for motor driver applications with schematic and layout.</p>
