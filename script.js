@@ -334,14 +334,6 @@ function processVoiceCommand(command) {
         showProjectDetails('satellite');
         speakResponse('This is my LEO MEO satellite optimizer project using genetic algorithms and orbital mechanics');
     }
-    else if (command.includes('rc car') || command.includes('remote control')) {
-        showProjectDetails('rc-car');
-        speakResponse('This is my ESP32 remote controlled car project with WiFi connectivity');
-    }
-    else if (command.includes('wifi light') || command.includes('smart light')) {
-        showProjectDetails('wifi-light');
-        speakResponse('This is my WiFi controlled smart lighting system');
-    }
     else if (command.includes('stopwatch') || command.includes('timer')) {
         showProjectDetails('stopwatch');
         speakResponse('This is my precision digital stopwatch built with Multisim simulation');
