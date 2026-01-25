@@ -1,8 +1,10 @@
 // Initialize Three.js scene
 let scene, camera, renderer, particles, particleSystem;
 
-// Voice Recognition Variables
-let voiceEnabled = false;
+// Voice Recognition and Synthesis Variables
+let recognition;
+let isListening = false;
+let isProcessingCommand = false;
 
 function init() {
     // Create scene
@@ -37,166 +39,254 @@ function init() {
     initNavigation();
     
     // Initialize voice recognition
-    // NOTE: Voice recognition has been removed from this project
+    initVoiceRecognition();
 }
 
-function createParticles() {
-    // Create particle geometry
-    const particleCount = 2000;
-    const particlesGeometry = new THREE.BufferGeometry();
-    const positions = new Float32Array(particleCount * 3);
-    
-    // Fill positions with random values
-    for (let i = 0; i < particleCount * 3; i++) {
-        positions[i] = (Math.random() - 0.5) * 20;
-    }
-    
-    particlesGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-    
-    // Create particle material
-    const particlesMaterial = new THREE.PointsMaterial({
-        color: 0x4cc9f0,
-        size: 0.05,
-        transparent: true,
-        blending: THREE.AdditiveBlending
-    });
-    
-    // Create particle system
-    particleSystem = new THREE.Points(particlesGeometry, particlesMaterial);
-    scene.add(particleSystem);
-}
+// Initialize voice recognition
+function initVoiceRecognition() {
+    if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        recognition = new SpeechRecognition();
+        recognition.continuous = true;
+        recognition.interimResults = true;
+        recognition.lang = 'en-US';
 
-function createGeometricShapes() {
-    // Create torus knot
-    const geometry = new THREE.TorusKnotGeometry(1, 0.3, 128, 32);
-    const material = new THREE.MeshPhongMaterial({
-        color: 0xf72585,
-        shininess: 100,
-        wireframe: true,
-        transparent: true,
-        opacity: 0.8
-    });
-    
-    const torusKnot = new THREE.Mesh(geometry, material);
-    torusKnot.position.x = -3;
-    torusKnot.position.y = 1;
-    scene.add(torusKnot);
-    
-    // Create icosahedron
-    const icoGeometry = new THREE.IcosahedronGeometry(1, 0);
-    const icoMaterial = new THREE.MeshPhongMaterial({
-        color: 0x4361ee,
-        wireframe: true,
-        transparent: true,
-        opacity: 0.7
-    });
-    
-    const icosahedron = new THREE.Mesh(icoGeometry, icoMaterial);
-    icosahedron.position.x = 3;
-    icosahedron.position.y = -1;
-    scene.add(icosahedron);
-    
-    // Create octahedron
-    const octaGeometry = new THREE.OctahedronGeometry(1, 0);
-    const octaMaterial = new THREE.MeshPhongMaterial({
-        color: 0x3a0ca3,
-        wireframe: true,
-        transparent: true,
-        opacity: 0.6
-    });
-    
-    const octahedron = new THREE.Mesh(octaGeometry, octaMaterial);
-    octahedron.position.x = 0;
-    octahedron.position.y = 2;
-    octahedron.position.z = -2;
-    scene.add(octahedron);
-}
+        recognition.onresult = function(event) {
+            let interimTranscript = '';
+            let finalTranscript = '';
 
-function addLighting() {
-    // Ambient light
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.2);
-    scene.add(ambientLight);
-    
-    // Directional lights
-    const directionalLight1 = new THREE.DirectionalLight(0xf72585, 1);
-    directionalLight1.position.set(5, 5, 5);
-    scene.add(directionalLight1);
-    
-    const directionalLight2 = new THREE.DirectionalLight(0x4cc9f0, 1);
-    directionalLight2.position.set(-5, -5, -5);
-    scene.add(directionalLight2);
-    
-    // Point lights
-    const pointLight1 = new THREE.PointLight(0xf72585, 0.5, 100);
-    pointLight1.position.set(5, 5, 5);
-    scene.add(pointLight1);
-    
-    const pointLight2 = new THREE.PointLight(0x4361ee, 0.5, 100);
-    pointLight2.position.set(-5, -5, -5);
-    scene.add(pointLight2);
-}
+            for (let i = event.resultIndex; i < event.results.length; i++) {
+                const transcript = event.results[i][0].transcript;
+                if (event.results[i].isFinal) {
+                    finalTranscript += transcript + ' ';
+                } else {
+                    interimTranscript += transcript;
+                }
+            }
 
-function onWindowResize() {
-    camera.aspect = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix();
-    renderer.setSize(window.innerWidth, window.innerHeight);
-}
+            const spokenText = finalTranscript.trim().toLowerCase();
 
-function animate() {
-    requestAnimationFrame(animate);
-    
-    // Rotate particles
-    particleSystem.rotation.x += 0.001;
-    particleSystem.rotation.y += 0.002;
-    
-    // Rotate geometric shapes
-    scene.children.forEach(child => {
-        if (child instanceof THREE.Mesh && child !== particleSystem) {
-            child.rotation.x += 0.005;
-            child.rotation.y += 0.007;
-        }
-    });
-    
-    renderer.render(scene, camera);
-}
+            if (spokenText) {
+                document.getElementById('voice-status').textContent = `Heard: ${spokenText}`;
+                
+                if (!isProcessingCommand) {
+                    processVoiceCommand(spokenText);
+                }
+            }
+        };
 
-function initNavigation() {
-    // Header scroll effect
-    window.addEventListener('scroll', () => {
-        const header = document.querySelector('header');
-        if (window.scrollY > 100) {
-            header.classList.add('scrolled');
-        } else {
-            header.classList.remove('scrolled');
-        }
-    });
-    
-    // Smooth scrolling for anchor links
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function(e) {
-            e.preventDefault();
-            
-            const targetId = this.getAttribute('href');
-            const targetElement = document.querySelector(targetId);
-            
-            if (targetElement) {
-                window.scrollTo({
-                    top: targetElement.offsetTop - 80,
-                    behavior: 'smooth'
-                });
+        recognition.onerror = function(event) {
+            console.error('Speech recognition error:', event.error);
+            document.getElementById('voice-status').textContent = `Error: ${event.error}`;
+            setTimeout(() => {
+                if (isListening) {
+                    startListening();
+                }
+            }, 1000);
+        };
+
+        recognition.onend = function() {
+            if (isListening) {
+                // Restart recognition if it ended unexpectedly
+                setTimeout(() => {
+                    if (isListening && !recognition.listening) {
+                        startListening();
+                    }
+                }, 100);
+            }
+        };
+
+        // Set up event listeners for voice control button and modal
+        document.getElementById('voice-btn').addEventListener('click', toggleVoiceControl);
+        document.querySelector('.close-modal').addEventListener('click', closeVoiceModal);
+        document.getElementById('voice-status').addEventListener('click', showVoiceCommands);
+
+        // Close modal when clicking outside
+        document.addEventListener('click', function(e) {
+            const modal = document.getElementById('voice-modal');
+            if (e.target === modal) {
+                closeVoiceModal();
             }
         });
+    } else {
+        console.warn('Speech recognition not supported in this browser.');
+        document.getElementById('voice-status').textContent = 'Voice control not supported';
+        document.getElementById('voice-btn').disabled = true;
+    }
+}
+
+// Toggle voice control on/off
+function toggleVoiceControl() {
+    if (isListening) {
+        stopListening();
+    } else {
+        startListening();
+    }
+}
+
+// Start voice recognition
+function startListening() {
+    if (recognition && !isListening) {
+        recognition.start();
+        isListening = true;
+        const voiceBtn = document.getElementById('voice-btn');
+        voiceBtn.classList.add('listening');
+        voiceBtn.innerHTML = '<span class="mic-icon">🔴</span><span class="btn-text">Listening...</span>';
+        document.getElementById('voice-status').textContent = 'Listening... Speak now.';
+    }
+}
+
+// Stop voice recognition
+function stopListening() {
+    if (recognition && isListening) {
+        recognition.stop();
+        isListening = false;
+        const voiceBtn = document.getElementById('voice-btn');
+        voiceBtn.classList.remove('listening');
+        voiceBtn.innerHTML = '<span class="mic-icon">🎤</span><span class="btn-text">Voice Control</span>';
+        document.getElementById('voice-status').textContent = 'Voice control stopped';
+    }
+}
+
+// Process voice commands
+function processVoiceCommand(command) {
+    if (isProcessingCommand) return; // Prevent duplicate processing
+    
+    isProcessingCommand = true;
+    document.getElementById('voice-status').textContent = `Processing: ${command}`;
+
+    // Navigation commands
+    if (command.includes('home') || command.includes('go to home') || command.includes('home page')) {
+        navigateToSection('home');
+        speakResponse("Navigating to home section.");
+    } 
+    else if (command.includes('about') || command.includes('about me') || command.includes('tell me about yourself')) {
+        navigateToSection('about');
+        speakResponse("Showing about section.");
+    } 
+    else if (command.includes('project') || command.includes('show projects') || command.includes('my work') || command.includes('satellite') || command.includes('leo project') || command.includes('satellite optimizer')) {
+        navigateToSection('projects');
+        speakResponse("Showing projects section. The LEO/MEO Satellite Optimizer project uses genetic algorithms for constellation optimization.");
+    } 
+    else if (command.includes('contact') || command.includes('get in touch') || command.includes('contact information') || command.includes('send message')) {
+        navigateToSection('contact');
+        speakResponse("Showing contact section.");
+    }
+    // Project-specific commands
+    else if (command.includes('satellite project') || command.includes('satellite optimizer') || command.includes('orbital mechanics') || command.includes('space project') || command.includes('genetic algorithm') || command.includes('optimization')) {
+        navigateToSection('projects');
+        speakResponse("The LEO/MEO Satellite Optimizer project uses genetic algorithms to optimize satellite constellation designs for Low Earth Orbit and Medium Earth Orbit missions. It includes trajectory calculations, coverage analysis, and ground station optimization using MATLAB toolboxes and RF hardware.");
+        highlightProject('satellite');
+    }
+    else if (command.includes('pcb design') || command.includes('pcb') || command.includes('printed circuit board')) {
+        navigateToSection('projects');
+        speakResponse("The PCB Design project showcases expertise in circuit design and layout using industry-standard tools.");
+        highlightProject('pcb');
+    }
+    else if (command.includes('stopwatch') || command.includes('timer') || command.includes('clock')) {
+        navigateToSection('projects');
+        speakResponse("The Stopwatch project is a responsive web application with timing functionality.");
+        highlightProject('stopwatch');
+    }
+    // Skills and technology commands
+    else if (command.includes('skills') || command.includes('technologies') || command.includes('what technologies do you use')) {
+        navigateToSection('about');
+        speakResponse("Skills include JavaScript, Python, React, Node.js, Three.js, and various other technologies.");
+    }
+    // Help commands
+    else if (command.includes('help') || command.includes('commands') || command.includes('show commands')) {
+        showVoiceCommands();
+        speakResponse("Displaying available voice commands.");
+    }
+    // Stop commands
+    else if (command.includes('stop listening') || command.includes('close voice control')) {
+        stopListening();
+        speakResponse("Voice control stopped.");
+    }
+    // Unrecognized command
+    else {
+        speakResponse(`I didn't understand "${command}". Say "help" to hear available commands.`);
+    }
+}
+
+// Speak response using Web Speech API
+function speakResponse(text) {
+    if ('speechSynthesis' in window) {
+        // Cancel any ongoing speech to prevent overlap
+        window.speechSynthesis.cancel();
+        
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.rate = 1;
+        utterance.pitch = 1;
+        utterance.volume = 1;
+        
+        // Reset processing flag when speech ends
+        utterance.onend = function() {
+            isProcessingCommand = false;
+            document.getElementById('voice-status').textContent = 'Ready for command';
+        };
+        
+        utterance.onerror = function() {
+            isProcessingCommand = false;
+            document.getElementById('voice-status').textContent = 'Ready for command';
+        };
+        
+        // Fallback to reset processing flag if events don't fire properly
+        setTimeout(() => {
+            if (isProcessingCommand) {
+                isProcessingCommand = false;
+                document.getElementById('voice-status').textContent = 'Ready for command';
+            }
+        }, 3000); // 3 second timeout as fallback
+        
+        window.speechSynthesis.speak(utterance);
+    } else {
+        console.warn('Speech synthesis not supported in this browser.');
+        isProcessingCommand = false;
+        document.getElementById('voice-status').textContent = 'Speech not supported';
+    }
+}
+
+// Navigate to a section
+function navigateToSection(sectionId) {
+    const element = document.getElementById(sectionId);
+    if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+    }
+}
+
+// Highlight a specific project
+function highlightProject(projectName) {
+    // Remove highlight from all projects
+    document.querySelectorAll('.project-card').forEach(card => {
+        card.style.boxShadow = 'none';
+        card.style.transform = 'scale(1)';
     });
     
-    // Form submission
-    const contactForm = document.querySelector('.contact-form');
-    if (contactForm) {
-        contactForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            alert('Thank you for your message! I will get back to you soon.');
-            this.reset();
-        });
+    // Add highlight to specific project
+    const projectCard = document.querySelector(`[data-project="${projectName}"]`);
+    if (projectCard) {
+        projectCard.style.boxShadow = '0 0 30px rgba(76, 201, 240, 0.8)';
+        projectCard.style.transform = 'scale(1.03)';
+        
+        // Reset after delay
+        setTimeout(() => {
+            if (projectCard) {
+                projectCard.style.boxShadow = 'none';
+                projectCard.style.transform = 'scale(1)';
+            }
+        }, 2000);
     }
+}
+
+// Show voice commands modal
+function showVoiceCommands() {
+    document.getElementById('voice-modal').style.display = 'block';
+}
+
+// Close voice commands modal
+function closeVoiceModal() {
+    document.getElementById('voice-modal').style.display = 'none';
 }
 
 // Initialize the scene when the page loads
