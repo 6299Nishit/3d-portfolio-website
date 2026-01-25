@@ -365,6 +365,14 @@ function processVoiceCommand(command) {
     else {
         speakResponse('Sorry, I did not understand that command. Say help to see available commands');
     }
+    
+    // Fallback: ensure the flag is reset even if speech synthesis has issues
+    setTimeout(() => {
+        if (isProcessingCommand) {
+            isProcessingCommand = false;
+        }
+    }, 5000); // 5 second timeout as fallback
+    
     // Note: isProcessingCommand flag is now handled in the speakResponse function
 }
 
@@ -430,6 +438,13 @@ function speakResponse(text) {
         };
         
         speechSynthesis.speak(utterance);
+        
+        // Fallback: ensure the flag is reset even if speech events don't fire
+        setTimeout(() => {
+            if (isProcessingCommand) {
+                isProcessingCommand = false;
+            }
+        }, 3000); // 3 second timeout as fallback
     } else {
         // If speech synthesis is not supported, just reset the flag
         setTimeout(() => {
